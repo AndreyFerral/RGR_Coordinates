@@ -27,109 +27,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TableLayout
-            android:id="@+id/downTableLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/upTableLayout">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/coordXText"
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="5dp"
-                    android:text="Координата X"
-                    android:textColor="@color/black"
-                    android:background="#A6DCEF"
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/coordXInfo"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="TextView"
-                    android:textColor="@color/black"
-                    android:background="#DDF3F5"
-                    android:textSize="20dp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/coordYText"
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="5dp"
-                    android:text="Координата Y"
-                    android:textColor="@color/black"
-                    android:background="#A6DCEF"
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/coordYInfo"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="TextView"
-                    android:textColor="@color/black"
-                    android:background="#DDF3F5"
-                    android:textSize="20dp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/distanceText"
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="5dp"
-                    android:text="Дистанция"
-                    android:textColor="@color/black"
-                    android:background="#A6DCEF"
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/distanceInfo"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="TextView"
-                    android:textColor="@color/black"
-                    android:background="#DDF3F5"
-                    android:textSize="20dp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/reset"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_column="0"
-                    android:layout_span="2"
-                    android:onClick="resetMovement"
-                    android:text="Сбросить" />
-
-            </TableRow>
-        </TableLayout>
-
-        <TableLayout
             android:id="@+id/upTableLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -158,7 +55,7 @@
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="TextView"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:background="#DDF3F5"
                     android:textSize="20dp" />
@@ -184,13 +81,116 @@
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="TextView"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:background="#DDF3F5"
                     android:textSize="20dp" />
 
             </TableRow>
 
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/downTableLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/upTableLayout">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/coordXText"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:text="Координата X"
+                    android:textColor="@color/black"
+                    android:background="#A6DCEF"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/coordXInfo"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:background="#DDF3F5"
+                    android:textSize="20dp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/coordYText"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:text="Координата Y"
+                    android:textColor="@color/black"
+                    android:background="#A6DCEF"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/coordYInfo"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:background="#DDF3F5"
+                    android:textSize="20dp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/distanceText"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:text="Дистанция"
+                    android:textColor="@color/black"
+                    android:background="#A6DCEF"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/distanceInfo"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:background="#DDF3F5"
+                    android:textSize="20dp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/reset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_span="2"
+                    android:onClick="resetMovement"
+                    android:text="Сбросить" />
+
+            </TableRow>
         </TableLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -228,8 +228,6 @@
             android:id="@+id/move"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/move" />
