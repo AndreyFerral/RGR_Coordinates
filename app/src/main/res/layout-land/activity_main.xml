@@ -54,10 +54,10 @@
                     android:id="@+id/radianInfo"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textColor="@color/black"
                     android:background="#DDF3F5"
+                    android:gravity="center"
+                    android:text="0.00"
+                    android:textColor="@color/black"
                     android:textSize="20dp" />
 
             </TableRow>

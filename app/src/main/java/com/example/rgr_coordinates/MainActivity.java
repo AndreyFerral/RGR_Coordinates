@@ -19,17 +19,22 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
     ConstraintLayout constraintLayout;
 
-    TextView radian;
-    TextView degree;
-    TextView distance;
-    TextView coordX;
-    TextView coordY;
+    TextView radianInfo;
+    TextView degreeInfo;
+    TextView distanceInfo;
+    TextView coordXInfo;
+    TextView coordYInfo;
 
     // Отображаемые и физические координаты рисунка
     int displayedX;
     int displayedY;
     int realX;
     int realY;
+
+    // Отображаемые величины на экране
+    int distance;
+    int degree;
+    float radian;
 
     // Необходима для проверки - первый ли запуска программы
     boolean isFirstRun = true;
@@ -47,16 +52,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        radian = (TextView) findViewById(R.id.radianInfo);
-        degree = (TextView) findViewById(R.id.degreeInfo);
-        distance = (TextView) findViewById(R.id.distanceInfo);
-        coordX = (TextView) findViewById(R.id.coordXInfo);
-        coordY = (TextView) findViewById(R.id.coordYInfo);
+        // Найдем компоненты в XML разметке
+        radianInfo = (TextView) findViewById(R.id.radianInfo);
+        degreeInfo = (TextView) findViewById(R.id.degreeInfo);
+        distanceInfo = (TextView) findViewById(R.id.distanceInfo);
+        coordXInfo = (TextView) findViewById(R.id.coordXInfo);
+        coordYInfo = (TextView) findViewById(R.id.coordYInfo);
 
         imageView = (ImageView) findViewById(R.id.move);
         constraintLayout = (ConstraintLayout) findViewById(R.id.downLayout);
-
-        // Ранее размеры получались при каждом нажатии на экран, но это было не оптимально
 
         // Получаем размер рисунка и layout, когда их значения определены (не равны 0)
         imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -101,27 +105,30 @@ public class MainActivity extends AppCompatActivity {
         imageView.setX(layoutWidth / 2 - pictureWidth / 2);
         imageView.setY(layoutHeight / 2 - pictureHeight / 2);
 
-        // Присваиваем отображаемым координатам значение 0
+        // Присваиваем всем величинам значение 0
+        realX = 0;
+        realY = 0;
         displayedX = 0;
         displayedY = 0;
+        radian = 0;
+        degree = 0;
+        distance = 0;
 
-        // Обнуляем значения всех элементов textView
-        radian.setText(String.valueOf(0));
-        degree.setText(String.valueOf(0));
-        distance.setText(String.valueOf(0));
-        coordX.setText(String.valueOf(displayedX));
-        coordY.setText(String.valueOf(displayedY));
+        // Обновляем значения всех элементов textView
+        radianInfo.setText(String.format("%.2f", +radian));
+        degreeInfo.setText(String.valueOf(degree));
+        distanceInfo.setText(String.valueOf(distance));
+        coordXInfo.setText(String.valueOf(displayedX));
+        coordYInfo.setText(String.valueOf(displayedY));
     }
 
     public void onSaveInstanceState(Bundle outState) {
 
         super.onSaveInstanceState(outState);
 
-        // Отправляем отображаемые значения рисунка
+        // Отправляем отображаемые координаты рисунка
         outState.putInt("displayedX", displayedX);
         outState.putInt("displayedY", displayedY);
-
-        Log.d(TAG, "Отправляемое displayed -> " + String.valueOf(displayedX) + " " + String.valueOf(displayedY));
 
         Log.d(TAG, "onSaveInstanceState");
     }
@@ -137,13 +144,7 @@ public class MainActivity extends AppCompatActivity {
         displayedX = savedInstanceState.getInt("displayedX");
         displayedY = savedInstanceState.getInt("displayedY");
 
-        Log.d(TAG, "Получаемое displayed -> " + String.valueOf(displayedX) + " " + String.valueOf(displayedY));
-
-        // Устанавливаем нулевые значения
-        radian.setText(String.valueOf(0));
-        degree.setText(String.valueOf(0));
-        distance.setText(String.valueOf(0));
-        //
+        Log.d(TAG, "displayed -> " + String.valueOf(displayedX) + " " + String.valueOf(displayedY));
 
         // Вызывается после того, как вызовется аналогичный слушатель в onCreate
         imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -197,13 +198,30 @@ public class MainActivity extends AppCompatActivity {
                     displayedY = (int)-(realY - layoutHeight/2 + pictureHeight/2);
                 }
 
-                // Изменяем отображаемые координаты рисунка
-                coordX.setText(String.valueOf(displayedX));
-                coordY.setText(String.valueOf(displayedY));
-
                 // Изменяем физические координаты рисунка
                 imageView.setX(realX);
                 imageView.setY(realY);
+
+                // Обновляем на эране отображаемые координаты рисунка
+                coordXInfo.setText(String.valueOf(displayedX));
+                coordYInfo.setText(String.valueOf(displayedY));
+
+                // Рассчитываем дистанцию с учетом того, что координаты могли измениться
+                distance = (int)(Math.sqrt(Math.pow(displayedX-0,2) + Math.pow(displayedY-0,2)));
+                // Отображаем на экране дистанцию
+                distanceInfo.setText(String.valueOf(distance));
+
+                // Рассчитываем градус учетом того, что координаты могли измениться
+                degree = (int)(Math.atan2(displayedY-0, displayedX-0) / Math.PI * 180);
+                // Устанавливаем диапазон от 0 до 360 градусов
+                degree = (degree < 0) ? degree + 360 : degree;
+                // Отображаем на экране угол между точками относительно оси Х
+                degreeInfo.setText(String.valueOf(degree));
+
+                // Переводим из градусов в радианы с учетом того, что градусы могли измениться
+                radian = (float)(degree * Math.PI/180);
+                // Уменьшаем количество цифр после запятой, а также выводим на экран
+                radianInfo.setText(String.format("%.2f", +radian));
 
                 Log.d(TAG, "Слушатель в onRestoreInstanceState");
 
@@ -246,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
                 imageView.setX(realX + dx);
 
                 displayedX = (int)(realX - layoutWidth/2 + pictureWidth/2);
-                coordX.setText(String.valueOf(displayedX));
+                coordXInfo.setText(String.valueOf(displayedX));
             }
 
             // Если координата Y находится в layout, то перемещаем рисунок
@@ -255,11 +273,29 @@ public class MainActivity extends AppCompatActivity {
                 imageView.setY(realY + dy);
 
                 displayedY = (int)(-(realY - layoutHeight/2 + pictureHeight/2));
-                coordY.setText(String.valueOf(displayedY));
+                coordYInfo.setText(String.valueOf(displayedY));
             }
 
             x = event.getX();
             y = event.getY();
+
+            // Рассчитываем дистанцию по формуле
+            // В качестве координат берем начальную точку (0,0) и отображаемую координату рисунка
+            distance = (int)(Math.sqrt(Math.pow(displayedX-0,2) + Math.pow(displayedY-0,2)));
+            // Отображаем на экране дистанцию
+            distanceInfo.setText(String.valueOf(distance));
+
+            // Рассчитываем градус учетом того, что координаты могли измениться
+            degree = (int)(Math.atan2(displayedY-0, displayedX-0) / Math.PI * 180);
+            // Устанавливаем диапазон от 0 до 360 градусов
+            degree = (degree < 0) ? degree + 360 : degree;
+            // Отображаем на экране угол между точками относительно оси Х
+            degreeInfo.setText(String.valueOf(degree));
+
+            // Переводим из градусов в радианы
+            radian = (float)(degree * Math.PI/180);
+            // Уменьшаем количество цифр после запятой, а также выводим на экран
+            radianInfo.setText(String.format("%.2f", +radian));
         }
         return super.onTouchEvent(event);
     }
